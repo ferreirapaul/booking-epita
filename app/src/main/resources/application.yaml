@@ -25,5 +25,16 @@ spring:
 
 server:
   port: 8443
+  servlet:
+    session:
+      cookie:
+        name: SESSION
+        path: /
+        http-only: true
+        secure: true
+        same-site: strict
+        max-age: 1800
+      timeout: 1800
+      tracking-modes: cookie
   ssl:
     bundle: web
