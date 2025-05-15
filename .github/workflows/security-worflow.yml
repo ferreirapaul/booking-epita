@@ -14,12 +14,17 @@ jobs:
         uses: actions/checkout@v4
       - name: osv-scanner
         uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.0.2
+        with:
+          scan: app/build.gradle
       - name: upload
         uses: github/codeql-action/upload-sarif@v2.21.3
   semgrep:
     runs-on: ubuntu-latest
     container:
       image: returntocorp/semgrep
+    permissions:
+      security-events: write
+      contents: read
 
     steps:
       - name: checkout
