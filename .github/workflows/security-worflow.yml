@@ -1,0 +1,36 @@
+name: Security worflow
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: osv-scanner
+        uses: google/osv-scanner-action@v2.0.2
+      - name: upload
+        uses: github/codeql-action/upload-sarif@v2.21.3
+  semgrep:
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: run-semgrep
+        run: semgrep scan --config p/java --sarif > result.sarif
+      - name: upload
+        uses: github/codeql-action/upload-sarif@v2.21.3
+        with:
+          sarif_file: result.sarif
+            
+      
+          
+        
